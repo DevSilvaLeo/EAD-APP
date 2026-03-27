@@ -1,0 +1,15 @@
+.page-loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.page-err {
+  text-align: center;
+  padding: 2rem;
+}
+
+.page-err p {
+  margin-bottom: 1rem;
+  color: #c62828;
+}

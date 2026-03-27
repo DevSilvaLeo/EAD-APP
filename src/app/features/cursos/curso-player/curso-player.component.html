@@ -1,0 +1,166 @@
+<div class="player">
+  <div class="player-head">
+    <a mat-button routerLink="/home/meus-cursos" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      Meus cursos
+    </a>
+    <h1 class="player-title">{{ curso.nome }}</h1>
+    <p class="player-sub">
+      Progresso geral: {{ curso.percentualConcluidoGeral }}%
+      @if (curso.sequencial) {
+        <span class="seq-badge">Sequencial</span>
+      }
+    </p>
+  </div>
+
+  <mat-card class="player-stage">
+    @if (!selected) {
+      <mat-card-content>
+        <p class="empty-select">Selecione uma aula na lista abaixo.</p>
+      </mat-card-content>
+    } @else {
+      <mat-card-content class="stage-body">
+        @switch (tipoAtual()) {
+          @case ('video') {
+            <div class="video-wrap">
+              <video
+                #videoEl
+                class="video-el"
+                controls
+                controlsList="nodownload"
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
+          }
+          @case ('slides') {
+            <div class="slides-wrap">
+              @if (slidesSafeUrl(); as safe) {
+                <iframe [src]="safe" class="slides-frame" title="Slides"></iframe>
+              } @else {
+                <p>Slides indisponíveis.</p>
+              }
+            </div>
+          }
+          @case ('leitura') {
+            <div class="text-wrap">
+              <h3 class="stage-h">{{ selected.titulo }}</h3>
+              <pre class="text-pre">{{ selected.conteudoTexto }}</pre>
+            </div>
+          }
+          @case ('tarefa') {
+            <div class="task-wrap">
+              <h3 class="stage-h">{{ selected.titulo }}</h3>
+              <pre class="text-pre">{{ selected.conteudoTexto }}</pre>
+              <button mat-stroked-button color="primary" type="button" (click)="entregarTarefa()">
+                <mat-icon>upload</mat-icon>
+                Enviar entrega
+              </button>
+            </div>
+          }
+          @default {
+            <p>Tipo de conteúdo não suportado: {{ selected.tipo }}</p>
+          }
+        }
+
+        <div class="concluir-row">
+          <mat-checkbox
+            [checked]="selected.concluida"
+            [disabled]="selected.bloqueada || selected.concluida || marcando"
+            (change)="toggleConcluida($event.checked)"
+          >
+            @switch (tipoAtual()) {
+              @case ('video') {
+                Concluí assistir a esta aula
+              }
+              @case ('leitura') {
+                Concluí a leitura
+              }
+              @case ('slides') {
+                Concluí a revisão dos slides
+              }
+              @case ('tarefa') {
+                Concluí a tarefa
+              }
+              @default {
+                Marcar como concluída
+              }
+            }
+          </mat-checkbox>
+        </div>
+      </mat-card-content>
+    }
+  </mat-card>
+
+  <section class="aulas-section">
+    <h2 class="section-title">Aulas do curso</h2>
+    @for (m of modulos; track m.titulo) {
+      <div class="modulo">
+        <h3 class="modulo-title">
+          {{ m.titulo }} — {{ m.total }} aulas — {{ m.pct }}% concluído
+        </h3>
+        <div class="aula-rows">
+          @for (a of m.aulas; track a.id) {
+            <button
+              type="button"
+              class="aula-row"
+              [class.aula-row--active]="selected?.id === a.id"
+              [class.aula-row--locked]="a.bloqueada"
+              (click)="selecionarAula(a)"
+            >
+              <mat-icon class="aula-ico">
+                @if (a.bloqueada) {
+                  lock
+                } @else if (a.concluida) {
+                  check_circle
+                } @else {
+                  play_circle
+                }
+              </mat-icon>
+              <div class="aula-main">
+                <span class="aula-tit">{{ a.titulo }}</span>
+                <span class="aula-meta">
+                  {{ a.percentualConcluido }}% concluído
+                  @if (a.duracaoSegundos) {
+                    · {{ a.duracaoSegundos }}s
+                  }
+                </span>
+                <mat-progress-bar mode="determinate" [value]="a.percentualConcluido" />
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </section>
+
+  <mat-accordion class="forum-acc">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Fórum do curso</mat-panel-title>
+        <mat-panel-description>Perguntas e respostas entre alunos e equipe</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-forum-panel
+        [tipo]="'disciplina'"
+        [referenciaId]="curso.id"
+        [respostasSomenteAdmin]="false"
+        (atualizado)="atualizado.emit()"
+      />
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true" [disabled]="!selected">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Fórum desta aula</mat-panel-title>
+        <mat-panel-description>Respostas apenas da equipe (administrativo)</mat-panel-description>
+      </mat-expansion-panel-header>
+      @if (selected) {
+        <app-forum-panel
+          [tipo]="'conteudo'"
+          [referenciaId]="selected.id"
+          [respostasSomenteAdmin]="true"
+          (atualizado)="atualizado.emit()"
+        />
+      }
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

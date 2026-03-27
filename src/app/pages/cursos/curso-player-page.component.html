@@ -1,0 +1,15 @@
+@if (loading) {
+  <div class="page-loading">
+    <mat-spinner diameter="48" />
+  </div>
+} @else if (erro) {
+  <div class="page-err">
+    <p>{{ erro }}</p>
+    <a mat-button routerLink="/home/meus-cursos">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar
+    </a>
+  </div>
+} @else if (curso) {
+  <app-curso-player [curso]="curso" (atualizado)="carregar()" />
+}

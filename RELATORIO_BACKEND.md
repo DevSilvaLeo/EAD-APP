@@ -57,7 +57,8 @@ Resumo: `LoginRequestDto` (`email`, `senha`), `LoginResponseDto` (`token`, `data
 | `TipoSolicitacaoDto` | `id`, `descricao` |
 | `SolicitacaoAcademicaRequestDto` | `tipoSolicitacaoId`, `descricao` |
 | `SolicitacaoAcademicaResponseDto` | `id`, `mensagem` |
-| `CursoAlunoDto` | `id`, `nomeCurso`, `percentualConcluido` — **GET proposto** `/api/cursos/meus` (confirmar no backend) |
+
+**Cursos e fórum:** ver `src/app/core/models/cursos-forum.models.ts` e seção **12** abaixo.
 
 ---
 
@@ -73,7 +74,12 @@ Resumo: `LoginRequestDto` (`email`, `senha`), `LoginResponseDto` (`token`, `data
 | GET | `/api/solicitacoes-academicas/meus-dados` | `SolicitacoesAcademicasService.meusDados()` | `DadosAlunoSolicitacaoDto` (404 possível) |
 | GET | `/api/solicitacoes-academicas/tipos` | `SolicitacoesAcademicasService.tipos()` | `TipoSolicitacaoDto[]` |
 | POST | `/api/solicitacoes-academicas` | `SolicitacoesAcademicasService.enviar()` | `SolicitacaoAcademicaResponseDto` — body `SolicitacaoAcademicaRequestDto` |
-| GET | `/api/cursos/meus` | `CursosAlunoService.meusCursos()` | `CursoAlunoDto[]` — **path proposto** |
+| GET | `/api/cursos` | `CursosService.listar()` | `CursoListaFrontendItemDto[]` |
+| GET | `/api/cursos/{id}` | `CursosService.getById(id)` | `CursoDetalheFrontendDto` |
+| POST | `/api/cursos/{cursoId}/aulas/{aulaId}/concluir` | `CursosService.concluirAula` | `MensagemSimplesResponseDto` |
+| POST | `/api/cursos/{cursoId}/conteudos/{conteudoId}/concluir` | `CursosService.concluirConteudo` | `MensagemSimplesResponseDto` |
+| GET | `/api/forum/{tipo}/{id}` | `ForumService.getThread` | `ForumThreadResponseDto` — `tipo`: `disciplina` \| `conteudo` (case-insensitive na API) |
+| POST | `/api/forum/{tipo}/{id}` | `ForumService.post` | `MensagemSimplesResponseDto` — body `ForumPostRequestDto` |
 
 **Nota:** no front, o parâmetro da rota de entrega de tarefa é o **`id`** retornado em `TarefaPendenteFrontendDto`; o backend documenta `{conteudoId}` — alinhar se o `id` do DTO for de fato o `conteudoId`.
 
@@ -99,6 +105,7 @@ Resumo: `LoginRequestDto` (`email`, `senha`), `LoginResponseDto` (`token`, `data
 | `/home` | `HomeShellComponent` | `authGuard` |
 | `/home/dashboard` | `HomeDashboardComponent` (calendário FullCalendar + avisos + tarefas) | herdado |
 | `/home/meus-cursos` | `MeusCursosPageComponent` | herdado |
+| `/home/cursos/:cursoId` | `CursoPlayerPageComponent` + `CursoPlayerComponent` | herdado |
 | `/home/financeiro` | `FinanceiroPageComponent` | herdado |
 | `/home/solicitacoes-academicas` | `SolicitacoesAcademicasPageComponent` | herdado |
 | `/home/admin/cursos`, `.../eventos-calendario`, `.../avisos`, `.../produtos` | `AdminPlaceholderPageComponent` | `authGuard` + `adminGuard` |
@@ -128,7 +135,26 @@ Redirecionamentos: `/` → `/login`; `/home` → `/home/dashboard`; login com su
 1. Implementar endpoints da seção 6 com política **SomenteAluno** (e rotas admin com **SomenteAdmin** quando os CRUDs forem implementados).  
 2. Garantir JSON **camelCase** ou alinhar serialização com o front.  
 3. Enviar claim **Role** no JWT (`Aluno` / `Administrador`) para o interceptor e menus funcionarem sem mock.  
-4. Confirmar o path real de **meus cursos** (`/api/cursos/meus` ou outro).  
+4. `GET /api/cursos` e `GET /api/cursos/{id}` com `id` **Guid** (string).  
+
+---
+
+## 12. Cursos (player) e fórum — contratos
+
+### DTOs (`cursos-forum.models.ts`)
+
+- **`CursoListaFrontendItemDto`:** `id`, `nome`, `percentualConcluido`
+- **`CursoDetalheFrontendDto`:** `id`, `nome`, `percentualConcluidoGeral`, `sequencial`, `aulas[]`
+- **`AulaFrontendDto`:** `id`, `titulo`, `tipo`, `urlVideo?`, `urlSlides?`, `conteudoTexto?`, `ordem`, `concluida`, `percentualConcluido`, `duracaoSegundos?`, `modulo?` (opcional — agrupamento UI)
+
+Tipos de `tipo` aceitos no front (exibição): `video`, `leitura`, `slides`, `tarefa` (comparar com `toLowerCase()`).
+
+### Front
+
+- **`sequencial`:** se `true`, aulas com `ordem` maior ficam bloqueadas até a anterior estar `concluida` (regra calculada no cliente; o backend deve refletir o mesmo estado).
+- **Vídeo:** `VideoPlaybackService` tenta `fetch` + `blob:` para não exibir a URL original no atributo `src` quando CORS permite; **não** impede a URL na aba Network — mascaramento total exige streaming pelo backend.
+- **Fórum curso:** `GET/POST /api/forum/disciplina/{cursoId}` — todos podem publicar e responder.
+- **Fórum aula:** `GET/POST /api/forum/conteudo/{aulaId}` — todos publicam dúvidas; **respostas a uma entrada** só para **Administrador** (`ead_user_role`).
 
 ---
 

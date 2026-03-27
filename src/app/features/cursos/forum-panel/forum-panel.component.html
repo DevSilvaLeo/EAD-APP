@@ -1,0 +1,52 @@
+<mat-card class="forum-card">
+  <mat-card-content>
+    @if (loading) {
+      <div class="forum-loading">
+        <mat-spinner diameter="28" />
+      </div>
+    } @else {
+      <div class="forum-list">
+        @for (e of entradas; track e.id) {
+          <div class="forum-entrada">
+            <div class="forum-meta">{{ e.criadoEm | date: 'dd/MM/yyyy HH:mm' }}</div>
+            <p class="forum-msg">{{ e.mensagem }}</p>
+            @if (e.respostas.length) {
+              <div class="forum-respostas">
+                @for (r of e.respostas; track r.id) {
+                  <div class="forum-resposta">
+                    <span class="forum-meta">{{ r.criadoEm | date: 'short' }}</span>
+                    <p>{{ r.mensagem }}</p>
+                  </div>
+                }
+              </div>
+            }
+            @if (podeResponderEntrada()) {
+              <div class="forum-reply">
+                <mat-form-field appearance="outline" class="full">
+                  <mat-label>Responder</mat-label>
+                  <textarea matInput rows="2" [formControl]="getReplyControl(e.id)"></textarea>
+                </mat-form-field>
+                <button mat-stroked-button color="primary" type="button" (click)="enviarResposta(e.id)">
+                  <mat-icon>reply</mat-icon>
+                  Enviar resposta
+                </button>
+              </div>
+            } @else if (respostasSomenteAdmin && !auth.isAdministrador()) {
+              <p class="forum-hint">Respostas neste fórum são publicadas por administradores.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="forum-novo">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Nova pergunta ou comentário</mat-label>
+          <textarea matInput rows="3" [formControl]="novaMensagem"></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="button" (click)="enviarNovoTopico()">
+          Publicar
+        </button>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs';
-import { CursoAlunoDto } from '../../core/models/aluno-area.models';
-import { CursosAlunoService } from '../../core/services/cursos-aluno.service';
+import { CursoListaFrontendItemDto } from '../../core/models/cursos-forum.models';
+import { CursosService } from '../../core/services/cursos.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -23,15 +24,16 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './meus-cursos-page.component.css',
 })
 export class MeusCursosPageComponent implements OnInit {
-  private readonly cursos = inject(CursosAlunoService);
+  private readonly cursos = inject(CursosService);
+  private readonly router = inject(Router);
   private readonly toast = inject(ToastrService);
 
   loading = true;
-  lista: CursoAlunoDto[] = [];
+  lista: CursoListaFrontendItemDto[] = [];
 
   ngOnInit(): void {
     this.cursos
-      .meusCursos()
+      .listar()
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (rows) => (this.lista = rows),
@@ -39,7 +41,7 @@ export class MeusCursosPageComponent implements OnInit {
       });
   }
 
-  acessar(_curso: CursoAlunoDto): void {
-    this.toast.info('Abertura do curso será integrada na próxima etapa.');
+  acessar(curso: CursoListaFrontendItemDto): void {
+    void this.router.navigate(['/home/cursos', curso.id]);
   }
 }

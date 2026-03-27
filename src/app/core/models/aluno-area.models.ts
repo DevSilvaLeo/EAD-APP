@@ -71,12 +71,3 @@ export interface SolicitacaoAcademicaResponseDto {
   mensagem: string;
 }
 
-/**
- * GET /api/cursos/meus (proposta — não constava na doc anterior; mock + relatório).
- * Ajuste o path quando o backend estiver definido.
- */
-export interface CursoAlunoDto {
-  id: number;
-  nomeCurso: string;
-  percentualConcluido: number;
-}

@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+/* Angular Material theme (azure-blue) is loaded via angular.json */
+@import 'ngx-toastr/toastr';
+
+:root {
+  --ead-primary: #1565c0;
+  --ead-primary-dark: #0d47a1;
+  --ead-primary-light: #90caf9;
+  --ead-text: #1a237e;
+  --ead-muted: #5c6bc0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #fafcff;
+}
+
+/* Toasts alinhados ao tema azul */
+#toast-container.toast-top-right .ngx-toastr {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(13, 71, 161, 0.2);
+}

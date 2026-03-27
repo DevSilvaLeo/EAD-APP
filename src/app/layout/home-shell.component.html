@@ -1,0 +1,147 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    class="shell-sidenav"
+    [class.shell-sidenav--collapsed]="collapsed()"
+    mode="side"
+    opened
+    fixedInViewport
+  >
+    <div class="sidenav-brand">
+      <mat-icon class="brand-ico">school</mat-icon>
+      @if (!collapsed()) {
+        <span class="brand-text">EAD</span>
+      }
+    </div>
+
+    <mat-nav-list class="shell-nav">
+      <a
+        mat-list-item
+        routerLink="/home/dashboard"
+        routerLinkActive="shell-nav-active"
+        [matTooltip]="collapsed() ? 'Início' : ''"
+        matTooltipPosition="right"
+      >
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        @if (!collapsed()) {
+          <span matListItemTitle>Início</span>
+        }
+      </a>
+
+      <a
+        mat-list-item
+        routerLink="/home/meus-cursos"
+        routerLinkActive="shell-nav-active"
+        [matTooltip]="collapsed() ? 'Meus cursos' : ''"
+        matTooltipPosition="right"
+      >
+        <mat-icon matListItemIcon>menu_book</mat-icon>
+        @if (!collapsed()) {
+          <span matListItemTitle>Meus cursos</span>
+        }
+      </a>
+
+      <a
+        mat-list-item
+        routerLink="/home/financeiro"
+        routerLinkActive="shell-nav-active"
+        [matTooltip]="collapsed() ? 'Meu financeiro' : ''"
+        matTooltipPosition="right"
+      >
+        <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
+        @if (!collapsed()) {
+          <span matListItemTitle>Meu financeiro</span>
+        }
+      </a>
+
+      <a
+        mat-list-item
+        routerLink="/home/solicitacoes-academicas"
+        routerLinkActive="shell-nav-active"
+        [matTooltip]="collapsed() ? 'Solicitações acadêmicas' : ''"
+        matTooltipPosition="right"
+      >
+        <mat-icon matListItemIcon>assignment</mat-icon>
+        @if (!collapsed()) {
+          <span matListItemTitle>Solicitações acadêmicas</span>
+        }
+      </a>
+
+      @if (auth.isAdministrador()) {
+        @if (collapsed()) {
+          <div class="shell-admin-icon-wrap">
+            <button
+              type="button"
+              mat-icon-button
+              [matMenuTriggerFor]="adminMenu"
+              matTooltip="Administrativo"
+              matTooltipPosition="right"
+            >
+              <mat-icon>admin_panel_settings</mat-icon>
+            </button>
+          </div>
+          <mat-menu #adminMenu="matMenu">
+            <a mat-menu-item routerLink="/home/admin/cursos">Cadastro de cursos</a>
+            <a mat-menu-item routerLink="/home/admin/eventos-calendario">Eventos no calendário</a>
+            <a mat-menu-item routerLink="/home/admin/avisos">Cadastro de avisos</a>
+            <a mat-menu-item routerLink="/home/admin/produtos">Cadastro de produtos</a>
+          </mat-menu>
+        } @else {
+          <mat-expansion-panel class="admin-panel" [expanded]="true" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="admin-header-icon">admin_panel_settings</mat-icon>
+                Administrativo
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list dense>
+              <a mat-list-item routerLink="/home/admin/cursos" routerLinkActive="shell-nav-active">
+                <mat-icon matListItemIcon>library_add</mat-icon>
+                <span matListItemTitle>Cadastro de cursos</span>
+              </a>
+              <a
+                mat-list-item
+                routerLink="/home/admin/eventos-calendario"
+                routerLinkActive="shell-nav-active"
+              >
+                <mat-icon matListItemIcon>event</mat-icon>
+                <span matListItemTitle>Eventos no calendário</span>
+              </a>
+              <a mat-list-item routerLink="/home/admin/avisos" routerLinkActive="shell-nav-active">
+                <mat-icon matListItemIcon>campaign</mat-icon>
+                <span matListItemTitle>Cadastro de avisos</span>
+              </a>
+              <a mat-list-item routerLink="/home/admin/produtos" routerLinkActive="shell-nav-active">
+                <mat-icon matListItemIcon>inventory_2</mat-icon>
+                <span matListItemTitle>Cadastro de produtos</span>
+              </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+        }
+      }
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <button
+        mat-icon-button
+        type="button"
+        (click)="toggleSidebar()"
+        [matTooltip]="collapsed() ? 'Expandir menu' : 'Recolher menu'"
+      >
+        <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="shell-main">
+    <mat-toolbar color="primary" class="shell-toolbar">
+      <span class="toolbar-title">Área do aluno</span>
+      <span class="spacer"></span>
+      <button mat-icon-button type="button" (click)="sair()" matTooltip="Sair">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="shell-outlet">
+      <router-outlet />
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

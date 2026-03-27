@@ -1,0 +1,41 @@
+<div class="troca-wrap">
+  <div class="troca-header">
+    <mat-icon class="troca-icon">lock_reset</mat-icon>
+    <h2 class="troca-title">Nova senha</h2>
+    <p class="troca-hint">Defina uma senha forte e confirme nos dois campos.</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="troca-form">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Nova senha</mat-label>
+      <mat-icon matPrefix>lock</mat-icon>
+      <input matInput type="password" formControlName="senha" autocomplete="new-password" />
+      @if (form.controls.senha.hasError('required') && form.controls.senha.touched) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+      @if (form.controls.senha.hasError('loginPassword') && form.controls.senha.touched) {
+        <mat-error>8–13 caracteres, com maiúscula, minúscula, número e um de !&#64;#$%</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Confirmar senha</mat-label>
+      <mat-icon matPrefix>verified_user</mat-icon>
+      <input matInput type="password" formControlName="senhaConfirmacao" autocomplete="new-password" />
+      @if (form.controls.senhaConfirmacao.hasError('required') && form.controls.senhaConfirmacao.touched) {
+        <mat-error>Campo obrigatório</mat-error>
+      }
+      @if (form.controls.senhaConfirmacao.hasError('mismatch') && form.controls.senhaConfirmacao.touched) {
+        <mat-error>As senhas devem ser iguais</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" class="full" [disabled]="loading">
+      @if (loading) {
+        <mat-spinner diameter="22" />
+      } @else {
+        Salvar nova senha
+      }
+    </button>
+  </form>
+</div>

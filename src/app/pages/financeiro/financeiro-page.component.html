@@ -1,0 +1,22 @@
+<h1 class="page-title">Meu financeiro</h1>
+
+@if (loading) {
+  <div class="page-loading">
+    <mat-spinner diameter="40" />
+  </div>
+} @else {
+  <div class="fin-stack">
+    @for (f of lista; track f.id) {
+      <mat-card class="fin-card">
+        <mat-card-content class="fin-row">
+          <div class="fin-nome">{{ f.nomeCurso }}</div>
+          <span [class]="classeStatus(f.status)">{{ labelStatus(f.status) }}</span>
+          <button mat-stroked-button color="primary" type="button" (click)="acessar(f)">
+            <mat-icon>payments</mat-icon>
+            Acessar meu financeiro
+          </button>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+}

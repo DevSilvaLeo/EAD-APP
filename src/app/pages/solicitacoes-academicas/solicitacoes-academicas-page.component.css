@@ -1,0 +1,29 @@
+.page-title {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ead-primary-dark, #0d47a1);
+}
+
+.page-loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.sol-card {
+  max-width: 640px;
+  border-radius: 12px !important;
+  border: 1px solid rgba(21, 101, 192, 0.12);
+}
+
+.sol-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.5rem;
+}
+
+.full {
+  width: 100%;
+}

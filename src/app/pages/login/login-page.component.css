@@ -1,0 +1,28 @@
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding-bottom: 0.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.full {
+  width: 100%;
+}
+
+.submit {
+  margin-top: 0.75rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0 1rem 1rem !important;
+}

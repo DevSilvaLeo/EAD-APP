@@ -1,0 +1,69 @@
+.codigo-wrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.codigo-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.codigo-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--ead-primary);
+}
+
+.codigo-title {
+  margin: 0.35rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ead-text);
+}
+
+.codigo-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ead-muted);
+}
+
+.digits-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1.25rem;
+}
+
+.digit-cell {
+  width: 44px;
+  height: 52px;
+  border-radius: 8px;
+  border: 2px dashed var(--ead-primary-light);
+  background: #fafcff;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ead-primary-dark);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.digit-cell:focus {
+  border-style: solid;
+  border-color: var(--ead-primary);
+  box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.2);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.actions button mat-spinner {
+  display: inline-block;
+  vertical-align: middle;
+}

@@ -1,0 +1,65 @@
+<h1 class="page-title">Solicitações acadêmicas</h1>
+
+@if (loading) {
+  <div class="page-loading">
+    <mat-spinner diameter="40" />
+  </div>
+} @else {
+  <mat-card class="sol-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="enviar()" class="sol-form">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Nome do aluno</mat-label>
+          <input matInput [value]="nomeAluno" readonly disabled tabindex="-1" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>E-mail</mat-label>
+          <input matInput [value]="emailAluno" readonly disabled tabindex="-1" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Data da solicitação</mat-label>
+          <input
+            matInput
+            [value]="dataSolicitacao ? (dataSolicitacao | date: 'dd/MM/yyyy HH:mm') : '—'"
+            readonly
+            disabled
+            tabindex="-1"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Tipo de solicitação</mat-label>
+          <mat-select formControlName="tipoSolicitacaoId">
+            @for (t of tipos; track t.id) {
+              <mat-option [value]="t.id">{{ t.descricao }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.tipoSolicitacaoId.hasError('required') && form.controls.tipoSolicitacaoId.touched) {
+            <mat-error>Selecione um tipo</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Descrição</mat-label>
+          <textarea matInput rows="5" formControlName="descricao" placeholder="Descreva sua solicitação"></textarea>
+          @if (form.controls.descricao.hasError('required') && form.controls.descricao.touched) {
+            <mat-error>Descrição obrigatória</mat-error>
+          }
+          @if (form.controls.descricao.hasError('minlength') && form.controls.descricao.touched) {
+            <mat-error>Mínimo 10 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="enviando">
+          @if (enviando) {
+            Enviando…
+          } @else {
+            Enviar solicitação
+          }
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+}

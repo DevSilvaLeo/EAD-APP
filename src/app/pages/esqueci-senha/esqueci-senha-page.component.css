@@ -1,0 +1,23 @@
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-card.wide {
+  max-width: 520px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.full {
+  width: 100%;
+}
+
+.links {
+  padding: 0 1rem 1rem !important;
+}

@@ -1,0 +1,29 @@
+<h1 class="page-title">Meus cursos</h1>
+
+@if (loading) {
+  <div class="page-loading">
+    <mat-spinner diameter="40" />
+  </div>
+} @else {
+  <div class="cursos-stack">
+    @for (c of lista; track c.id) {
+      <mat-card class="curso-card">
+        <mat-card-content class="curso-body">
+          <div class="curso-info">
+            <span class="curso-label">Curso:</span>
+            <strong class="curso-nome">{{ c.nomeCurso }}</strong>
+          </div>
+          <div class="curso-meta">
+            <span class="curso-pct-label">Percentual concluído</span>
+            <mat-progress-bar mode="determinate" [value]="c.percentualConcluido" />
+            <span class="curso-pct-val">{{ c.percentualConcluido }}%</span>
+          </div>
+          <button mat-flat-button color="primary" type="button" (click)="acessar(c)">
+            <mat-icon>open_in_new</mat-icon>
+            Acessar curso
+          </button>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+}

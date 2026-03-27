@@ -1,0 +1,43 @@
+.troca-wrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.troca-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.troca-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--ead-primary);
+}
+
+.troca-title {
+  margin: 0.35rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ead-text);
+}
+
+.troca-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ead-muted);
+}
+
+.troca-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.full {
+  width: 100%;
+}
+
+mat-form-field.full {
+  width: 100%;
+}

@@ -1,0 +1,123 @@
+.shell {
+  height: 100vh;
+  background: var(--ead-bg, #f5f8ff);
+}
+
+.shell-sidenav {
+  width: 260px;
+  border-right: 1px solid rgba(21, 101, 192, 0.12);
+  background: linear-gradient(180deg, #fff 0%, #f0f7ff 100%);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.22s ease;
+  overflow-x: hidden;
+}
+
+.shell-sidenav--collapsed {
+  width: 72px;
+}
+
+.sidenav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid rgba(21, 101, 192, 0.1);
+  min-height: 56px;
+}
+
+.brand-ico {
+  color: var(--ead-primary, #1565c0);
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ead-primary-dark, #0d47a1);
+  letter-spacing: 0.06em;
+}
+
+.shell-nav {
+  flex: 1;
+  padding-top: 0.5rem;
+}
+
+.shell-admin-icon-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 0.25rem 0;
+}
+
+.shell-nav-active .mdc-list-item__primary-text,
+.shell-nav-active mat-icon {
+  color: var(--ead-primary, #1565c0) !important;
+  font-weight: 600;
+}
+
+.shell-nav-active {
+  background: rgba(21, 101, 192, 0.08) !important;
+  border-radius: 0 24px 24px 0;
+}
+
+.admin-panel {
+  margin: 0.5rem 0.25rem 0;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+}
+
+.admin-panel ::ng-deep .mat-expansion-panel-body {
+  padding: 0 0 0.5rem !important;
+}
+
+.admin-header-icon {
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.sidenav-footer {
+  padding: 0.5rem;
+  border-top: 1px solid rgba(21, 101, 192, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.shell-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.shell-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.toolbar-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.shell-outlet {
+  flex: 1;
+  padding: 1rem 1.25rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 720px) {
+  .shell-sidenav:not(.shell-sidenav--collapsed) {
+    width: 240px;
+  }
+}

@@ -1,0 +1,54 @@
+@if (step === 'email') {
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Esqueci minha senha</mat-card-title>
+      <mat-card-subtitle>Informe o e-mail ou CPF cadastrado</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="enviar()" class="form">
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>E-mail ou CPF</mat-label>
+          <mat-icon matPrefix>badge</mat-icon>
+          <input matInput formControlName="identificador" autocomplete="username" />
+          @if (form.controls.identificador.hasError('required') && form.controls.identificador.touched) {
+            <mat-error>Campo obrigatório</mat-error>
+          }
+          @if (form.controls.identificador.hasError('emailOuCpf') && form.controls.identificador.touched) {
+            <mat-error>Use um e-mail válido ou CPF com 11 dígitos</mat-error>
+          }
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full" type="submit" [disabled]="loading">
+          @if (loading) {
+            <mat-spinner diameter="22" />
+          } @else {
+            Enviar
+          }
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="links" align="end">
+      <a mat-button routerLink="/login">Voltar ao login</a>
+    </mat-card-actions>
+  </mat-card>
+}
+
+@if (step === 'codigo') {
+  <mat-card class="auth-card wide">
+    <mat-card-content>
+      <app-codigo-validacao
+        [chaveVerificacao]="chaveVerificacao"
+        [fluxoPrimeiroAcesso]="false"
+        (validado)="onCodigoValidado()"
+        (voltarLogin)="voltarLogin()"
+      />
+    </mat-card-content>
+  </mat-card>
+}
+
+@if (step === 'senha') {
+  <mat-card class="auth-card wide">
+    <mat-card-content>
+      <app-troca-senha (concluido)="onTrocaConcluida()" />
+    </mat-card-content>
+  </mat-card>
+}

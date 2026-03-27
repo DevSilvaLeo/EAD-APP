@@ -1,0 +1,48 @@
+<div class="codigo-wrap">
+  <div class="codigo-header">
+    <mat-icon class="codigo-icon">pin</mat-icon>
+    <h2 class="codigo-title">Código de verificação</h2>
+    <p class="codigo-hint">Digite o código de 6 dígitos enviado ao seu e-mail.</p>
+  </div>
+
+  <div [formGroup]="form">
+    <div formArrayName="digits" class="digits-row">
+      @for (ctrl of digits.controls; track $index) {
+        <input
+          class="digit-cell"
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          autocomplete="one-time-code"
+          [attr.data-digit]="$index"
+          [formControlName]="$index"
+          (input)="onDigitInput($index, $event)"
+          (keydown)="onKeydown($index, $event)"
+          (paste)="onPaste($event, $index)"
+        />
+      }
+    </div>
+  </div>
+
+  <div class="actions">
+    <button mat-flat-button color="primary" type="button" (click)="enviar()" [disabled]="loading">
+      @if (loading) {
+        <mat-spinner diameter="20" />
+      } @else {
+        Validar código
+      }
+    </button>
+    @if (fluxoPrimeiroAcesso) {
+      <button
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="resetaPrimeiroAcesso()"
+        [disabled]="loadingReseta"
+      >
+        Reenviar código / resetar primeiro acesso
+      </button>
+    }
+    <button mat-button type="button" (click)="voltarLogin.emit()">Voltar ao login</button>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div class="dash-grid">
+  <mat-card class="dash-card dash-card--calendar">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon class="card-ico">calendar_month</mat-icon>
+        Calendário de atividades
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (loadingCal) {
+        <div class="dash-loading">
+          <mat-spinner diameter="36" />
+        </div>
+      } @else {
+        <div class="fc-wrap">
+          <full-calendar [options]="calendarOptions" />
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <div class="dash-row">
+    <mat-card class="dash-card dash-card--half">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="card-ico">campaign</mat-icon>
+          Avisos
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (loadingAvisos) {
+          <div class="dash-loading">
+            <mat-spinner diameter="32" />
+          </div>
+        } @else if (listaAvisos.length === 0) {
+          <p class="dash-empty">Nenhum aviso.</p>
+        } @else {
+          <ul class="dash-list">
+            @for (a of listaAvisos; track a.id) {
+              <li class="dash-list-item">
+                <div class="dash-list-head">
+                  <strong>{{ a.titulo }}</strong>
+                  @if (!a.lido) {
+                    <span class="badge-novo">Novo</span>
+                  }
+                </div>
+                <p class="dash-list-msg">{{ a.mensagem }}</p>
+                <span class="dash-list-meta">{{ a.data | date: 'dd/MM/yyyy HH:mm' }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="dash-card dash-card--half">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="card-ico">task_alt</mat-icon>
+          Tarefas pendentes
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (loadingTarefas) {
+          <div class="dash-loading">
+            <mat-spinner diameter="32" />
+          </div>
+        } @else if (listaTarefas.length === 0) {
+          <p class="dash-empty">Nenhuma tarefa pendente.</p>
+        } @else {
+          <ul class="dash-list">
+            @for (t of listaTarefas; track t.id) {
+              <li class="dash-list-item">
+                <div class="dash-list-head">
+                  <strong>{{ t.titulo }}</strong>
+                </div>
+                <p class="dash-list-msg">{{ t.descricao }}</p>
+                <div class="dash-task-foot">
+                  <span class="dash-list-meta">Prazo: {{ t.dataLimite | date: 'dd/MM/yyyy' }}</span>
+                  <button mat-stroked-button color="primary" type="button" (click)="entregarTarefa(t)">
+                    Entregar
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

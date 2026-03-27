@@ -1,0 +1,75 @@
+.page-title {
+  margin: 0 0 1rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ead-primary-dark, #0d47a1);
+}
+
+.page-loading {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.fin-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fin-card {
+  border-radius: 12px !important;
+  border: 1px solid rgba(21, 101, 192, 0.12);
+}
+
+.fin-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.fin-nome {
+  flex: 1;
+  min-width: 200px;
+  font-weight: 600;
+  color: #1a237e;
+}
+
+.fin-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+}
+
+.fin-status--pago {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.fin-status--pendente {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.fin-status--atrasado {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.fin-status--cancelado {
+  background: #eceff1;
+  color: #546e7a;
+}
+
+button mat-icon {
+  margin-right: 0.25rem;
+  vertical-align: middle;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
